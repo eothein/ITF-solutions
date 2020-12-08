@@ -2,7 +2,9 @@
 title: "Oplossingen examen"
 author: "Jens Buysse"
 date: "12/7/2020"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}

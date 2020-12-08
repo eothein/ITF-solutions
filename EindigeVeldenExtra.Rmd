@@ -1,0 +1,65 @@
+---
+title: "EindigeVeldenHulpblad"
+author: "Jens Buysse"
+date: "11/24/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Eindige velden
+
+### Definities 
+
+**Definitie**: Een veld $F$ is een verzameling van elementen met twee operatoren, $+$ en $.$, en twee constante elementen, $0$ en $1$, die voldoet aan de volgende eigenschappen. Stel $a,b,c \in F$:
+
+- $F$ is gesloten voor $+$ en $.$
+- commutatief
+- associatief
+- distributief
+- neutraal element 0 voor + en 1 voor .
+- $\exists  -a \in F : a + (-a) = 0$
+- $\exists  a^{-1} \in F : a . (a^{-1}) = 1$
+
+Een **eindig veld** is een veld waarvoor de verzameling van elementen eindig is. Het aantal elementen van deze verzameling is **de orde** van het veld.
+
+Er bestaat een veld van de orde $q$ $\Leftrightarrow$ $q$ de macht van een priemgetal $p$ is ($q = p^h, h \in \mathbb{N}$).
+
+Eindige velden zijn fundamenteel in een aantal gebieden van wiskunde en informatica , waaronder getaltheorie , algebraïsche meetkunde , Galois-theorie , eindige meetkunde , cryptografie en coderingstheorie . 
+
+### Modulo rekenen
+Stel $a,b \in \mathbb{Z}$. $a$ is congruent met $b$ modulo $m$ $\Leftrightarrow$ de deling van $a$ en van $b$ door $m$ dezelfde rest oplevert.
+
+- $a \equiv b \mod m \Leftrightarrow a = m.k + b$ met $m \in \mathbb{N}_0, k \in \mathbb{Z}$
+
+Anders geformuleerd: Zij $n$ een natuurlijk getal ongelijk aan $0$, dan heten de twee gehele getallen $a$ en $b$ congruent modulo $m$, genoteerd:
+
+$a \equiv b \mod m$
+
+als hun verschil $a-b$ een geheel veelvoud is van $n$.
+
+#### Voorbeelden
+
+- Neem twee willekeurige getallen 150 en 100 Als we hun verschil bepalen (150 - 100 = 50) dan kunnen we een deler 5 bepalen waar dat verschil een veelvoud van is. We kunnen dus zeggen
+  - $150 \equiv 100 \mod 5$
+  - Anders kunnen we ook zeggen dat zowel 150 en 100 een rest 0 hebben na deling door 5. 
+- $38 \equiv 14 \mod 12$ omdat $38 - 14 = 24$, wat een veelvoud is van $12$. Een andere manier om dit uit te drukken is door te zeggen dat zowel 38 als 14 dezelfde rest 2 hebben, wanneer gedeeld door 12. 
+
+#### Inverse berekenen
+
+Optelling: 
+
+- 5 en 6 $\Leftrightarrow$ $5+6 \equiv 0 \mod 11$ 
+- 7 en 4 $\Leftrightarrow$ $7+4 \equiv 0 \mod 11$ 
+
+Vermenigvuldiging:
+
+- 6 en 2 $\Leftrightarrow$ $6.2 \equiv 1 \mod 11$ 
+- 7 en 8 $\Leftrightarrow$ $7.8 \equiv 1 \mod 11$ 
+
+
+
+
+
