@@ -1,0 +1,112 @@
+---
+title: "Oefeningen eindige velden"
+author: "Jens Buysse"
+date: "11/30/2020"
+output:
+  html_document: default
+  word_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Oefeningen eindige velden
+
+### Oefening 1
+
+Noteer alle inverse elementen voor de optelling en de vermenigvuldiging in $\mathbb{Z}_p$:
+
+>> 
+* invers element voor $+$: er bestaat een element $-a \in F$ zodat $a + (-a) = 0$
+* invers element voor⋅$.$ voor elke $a \neq 0 \in F$ bestaat er een element $a^{-1}$ zodat $a.a^{-1} = 1$ 
+
+
+Voor de optelling schrijven we de $mod$ matrix eens volledig uit. We zoeken voor elk element (bv. voor de eerste kolom) de rij op waar de uitkomst **$=0$**.
+
+| + | 1 | 2 | 3 | 4 | 5 | 6 |
+| - | - | - | - | - | - | - |
+| 1 | 2 | 3 | 4 | 5 | 6 | 0 |
+| 2 | 3 | 4 | 5 | 6 | 0 | 1 |
+| 3 | 4 | 5 | 6 | 0 | 1 | 2 |
+| 4 | 5 | 6 | 0 | 1 | 2 | 3 |
+| 5 | 6 | 0 | 1 | 2 | 3 | 4 |
+| 6 | 0 | 1 | 2 | 3 | 4 | 5 |
+
+We vinden dus ${(1,6);(2,5);(3,4),(4,3);(5,2);(6,1)}$ 
+
+Voor de vermenigvuldiging schrijven we de $mod$ matrix eens volledig uit. We zoeken voor elk element (bv. voor de eerste kolom) de rij op waar de uitkomst **$=1$**.
+
+| + | 1 | 2 | 3 | 4 | 5 | 6 |
+| - | - | - | - | - | - | - |
+| 1 | 1 | 2 | 3 | 4 | 5 | 6 |
+| 2 | 2 | 4 | 6 | 1 | 3 | 5 |
+| 3 | 3 | 6 | 2 | 5 | 1 | 4 |
+| 4 | 4 | 1 | 5 | 2 | 6 | 3 |
+| 5 | 5 | 3 | 1 | 6 | 4 | 2 |
+| 6 | 6 | 5 | 4 | 3 | 2 | 1 |
+
+We vinden dus ${(1,1);(2,4);(3,5),(4,2);(5,3);(6,6)}$ 
+
+## Oefening 2
+Bereken in $\mathbb{Z}_7$:
+
+- $3 \times 4 + 6 \equiv 18  \pmod{7} = 4$
+- $2^{-1} \equiv 4 \pmod{7} = 4$
+- $-5 \equiv 2 \pmod{7} = 2$ 
+
+Bereken in $\mathbb{Z}_{11}$
+
+- $5 \times 3 + 5 \equiv 15 + 5 \pmod{11} = 9$ 
+- $−4 \equiv 7 \pmod{11} = 7$
+- $8^{−1} \equiv 1 \pmod{11} = 7$
+
+Bereken in $\mathbb{Z}_5$:
+
+- $8002 \times 333 \equiv  2 \times 3 \pmod{5} = 1$
+- $24 \times a = 108 \equiv 4 \times a = 3 \pmod{5} \equiv a = 3 \times 4 \pmod{5} \leftarrow a = 2$
+
+## Oefening 3
+
+Los op in $\mathbb{Z}_5$
+
+- $2x + 2 \equiv 5 \pmod{5} \Leftrightarrow  2x \equiv 5 + 3 \pmod{5} \Leftrightarrow x \equiv 8 \times 3  \pmod{5} \Leftrightarrow x = 4$
+- $4x \equiv 1 \pmod{5} \Leftrightarrow x \equiv 1 . 4 \pmod{5} \Leftrightarrow x = 4$
+- $−14 + x \equiv 0 \pmod{5} \Leftrightarrow x = 4$
+
+Los op in $\mathbb{Z}_{11}$
+
+- $4 + x \equiv 0 \pmod{11} \Leftrightarrow x \equiv -4 \pmod{11} \Leftrightarrow x \equiv 7 \pmod{11} \Leftrightarrow x = 7$
+- $3x + 5 \equiv 0 \pmod{11} \Leftrightarrow 3x \equiv -5 \pmod{11} \Leftrightarrow 3x \equiv 6 \pmod{11} \Leftrightarrow x \equiv 24 \pmod{11} \Leftrightarrow x = 2$
+- $4x + 6 \equiv 0 \pmod{11} \Leftrightarrow 4x \equiv -6 \pmod{11} \Leftrightarrow 4x \equiv 5 \pmod{11} \Leftrightarrow x \equiv 15 \pmod{11} \Leftrightarrow x = 4$
+
+## Oefening 4 
+
+Is $\mathbb{Z}_8$ een veld? Bestaat er een eindig veld met 8 elementen?
+
+>
+- De structuur \mathbb{Z}_m +,. is een veld als en slechts als m een priemgetal is.
+- Er bestaat een veld van de orde q $\Leftrightarrow$ als q de macht van eenpriemgetal p is (q = p^h, met h \in \mathbb{N}).
+
+- 8 is geen priemgetal, dus $\mathbb{Z}_m +,.$ is geen veld. 
+- $8 = 2^3$ en 2 is een priemgetal. Er bestaat dus wel degelijk een veld. Deze opbouwen valt buiten het bestek van deze cursus, maar je kan een aanzet alvast vinden op http://homepages.math.uic.edu/~leon/mcs425-s08/handouts/field.pdf 
+
+## Oefening 5
+
+- $129  \equiv 13 \pmod{29}$
+- $3 \times x \pmod{29} \equiv 1 \Leftrightarrow x = 10$
+- $494 \times 129 \pmod{29} \equiv 1 \times 13 \pmod{29} = 13$
+
+De code die geschreven staat is :
+- `r v <- 36%%29; intToUtf8(65+v)`
+- `r v <- 72%%29; intToUtf8(65+v)`
+- `r v <- -81%%29; intToUtf8(65+v)`
+- `r v <- 4%%29; intToUtf8(65+v)`
+- `r v <- -132%%29; intToUtf8(65+v)`
+- `r v <- 19%%29; intToUtf8(65+v)`
+- `r v <- 28%%29;` ! 
+
+
+
+
