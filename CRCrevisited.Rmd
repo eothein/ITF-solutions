@@ -1,0 +1,149 @@
+---
+title: "CRC revisited"
+author: "Jens Buysse"
+date: "12/15/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## CRC Revisited
+
+Beste studenten. In een vorig schrijven hebben we vermeld dat het algoritme voor CRC, zoals beschreven in de slides, niet correct is. Laten we in wat verder komt het algoritme van de slides **non-zero-padding (NZP)** noemen en het algortitme zoals uitgelegd in de video's van André Ooit **Zero-Padding (ZP)**. 
+
+We geven mee dat beide algoritmes correct zijn, namelijk ze kunnen beide bitfouten detecteren. Enkel is het wel zo dat het algortime ZP sterker is dan **NZP**. Ik beschrijf in onderstaande beide algoritmes nog eens, maar nu wat wiskundiger om formeel correct te zijn.
+
+### Definities
+
+- We noemen het datawoord $m(x)$ of ook wel het *message polynomioal* genoemd.
+- We noemen de polynoom $p(x)$, met graad $r$. 
+
+De polynoom wordt vertaald in een binaire uitdrukking. Dit wordt gedaan door de polynoom uit te breiden en vervolgens de coëfficiënten te nemen. Een voorbeeld van een polynoom naar binaire vertaling wordt hieronder getoond.
+
+- Polynoomsleutel: $x^8 + x^5 + x^4 + 1$
+- Uitgebreide polynoom: $ $1.x^8 + 0.x^7 + 0.x¨6 +  1.x^5 + 1.x^4 + 0.x^3 + 0.x^2 + 0.x^1 +  1x^0$
+- Polynoomwoord: $(100110001)_2$ 
+
+De hoogtstegraadsterm in de weergegeven polynoom is acht, waardoor deze polynoom een 8-bits CRC is, gewoonlijk CRC-8 genoemd. Vier, acht, zestien en tweeëndertig bits zijn veel voorkomende polynoomgroottes die in CRC's worden gebruikt.
+
+### NZP algoritme
+
+#### CRC berekenen
+
+1. Aligneer de polynoom  met de meest linkse 1 in $m(x)$.
+2. De gegevens worden ge-XOR-ed met de polynoom. 
+3. Het resultaat zijn de nieuwe gegevens. 
+4. Aligneer de polynoom opnieuw uit met de meest linkse 1 van $m(x)$. 
+5. Het proces gaat door totdat de rest kleiner is dan de polynoom.
+
+| 1 | 1 | 0 | 1 | 0 | 1 | m(x) |
+| - | - | - | - | - | - | ---- |
+| 1 | 0 | 1 |   |   |   | (px) |
+| 0 | 1 | 1 | 1 | 0 | 1 |      |
+|   | 1 | 0 | 1 |   |   |      |
+|   | 0 | 1 | 0 | 0 | 1 |      |
+|   |   | 1 | 0 | 1 |   |      |
+|   |   | 0 | 0 | 1 | 1 | rest |
+
+Bericht wordt dus $(11010111)_2$. 
+
+#### CRC verifiëren
+
+Verifiëren wordt dan $m(x)$ opniew delen door $p(x)$ en de bekomen CRC vergelijken. Indien deze niet overeenkomt is er een fout of zijn er meerdere fouten opgetreden.
+
+| 1 | 1 | 0 | 1 | 0 | 1 | m(x) |
+| - | - | - | - | - | - | ---- |
+| 1 | 0 | 1 |   |   |   | p(x) |
+| 0 | 1 | 1 | 1 | 0 | 1 |      |
+|   | 1 | 0 | 1 |   |   |      |
+|   | 0 | 1 | 0 | 0 | 1 |      |
+|   |   | 1 | 0 | 1 |   |      |
+|   |   | 0 | 0 | 1 | 1 | rest |
+
+### ZP algoritme
+
+#### CRC berekenen
+
+1. **Voeg $r$ nullen toe aan het einde van $m(x)$.**
+2. Aligneer de polynoom  met de meest linkse 1 in $m(x)$.
+3. De gegevens worden ge-XOR-ed met de polynoom. 
+4. Het resultaat zijn de nieuwe gegevens. 
+5. Aligneer de polynoom opnieuw uit met de meest linkse 1 van $m(x)$. 
+6. Het proces gaat door totdat de rest kleiner is dan de polynoom.
+
+Aangezien de meest linkse bit van $p(x)$ elke invoerbit die het heeft aangeraakt op nul heeft gezet, zijn de enige bits in de invoerrij die niet nul kunnen zijn, de $r$ bits aan de rechterkant van de rij wanneer dit proces eindigt. Deze $r$ bits zijn de rest van de deling en zullen ook de waarde zijn van de CRC-functie.
+
+| 1 | 1 | 0 | 1 | 0 | 1 | 0 | 0 | $m(x)$ |
+| - | - | - | - | - | - | - | - | ---- |
+| 1 | 0 | 1 |   |   |   |   |   | $p(x)$ |
+| 0 | 1 | 1 | 1 | 0 | 1 | 0 | 0 |      |
+|   | 1 | 0 | 1 |   |   |   |   |      |
+|   | 0 | 1 | 0 | 0 | 1 | 0 | 0 |      |
+|   |   | 1 | 0 | 1 |   |   |   |      |
+|   |   | 0 | 0 | 1 | 1 | 0 | 0 |      |
+|   |   |   |   | 1 | 0 | 1 |   |      |
+|   |   |   |   | 0 | 1 | 1 | 0 |      |
+|   |   |   |   |   | 1 | 0 | 1 |      |
+|   |   |   |   |   | 0 | 1 | 1 | rest |
+
+Bericht wordt dus $(11010111)_2$.
+
+### Verifiëren
+De geldigheid van een ontvangen bericht kan worden geverifieerd door de bovenstaande berekening opnieuw uit te voeren, dit keer met de CRC toegevoegd in plaats van nullen. De rest moet gelijk zijn aan nul als er geen detecteerbare fouten zijn.
+
+| 1 | 1 | 0 | 1 | 0 | 1 | 1 | 1 | m(x) |
+| - | - | - | - | - | - | - | - | ---- |
+| 1 | 0 | 1 |   |   |   |   |   | p(x) |
+| 0 | 1 | 1 | 1 | 0 | 1 | 1 |   |      |
+|   | 1 | 0 | 1 |   |   |   |   |      |
+|   | 0 | 1 | 0 | 0 | 1 | 1 |   |      |
+|   |   | 1 | 0 | 1 |   |   |   |      |
+|   |   | 0 | 0 | 1 | 1 | 1 |   |      |
+|   |   |   |   | 1 | 0 | 1 |   |      |
+|   |   |   |   | 0 | 1 | 0 | 1 |      |
+|   |   |   |   |   | 1 | 0 | 1 |      |
+|   |   |   |   |   | 0 | 0 | 0 | rest |
+
+Je ziet dat dit in principe dezelfde berekeningen ongeveer zijn, en dat het **principe** van NPZ en PZ hetzelfde is.
+
+## Verschil
+
+Het is wel zo dat PZ sterker is dan NZ, met name wanneer er meerdere bitfouten optreden. 
+
+De CRC-polynoom $p(x)$ kan zo worden ontworpen dat geen enkele polynoom $x^{k_1} + x^{k_2}$ erdoor deelbaar is, tenzij de exponenten erg groot zijn , groter dan de maximaal toegestane berichtlengte waarmee deze CRC-polynoom wordt geleverd. Het is bijvoorbeeld mogelijk om een polynoom van graad 16 $p(x)$ zo te selecteren dat dit nooit gebeurt als $k_1, k_2 < 2^{16}−1 = 65535$ - een relatief lang blok.
+
+Een gevolg van dit ontwerp is dat **alle** foutpatronen van twee bits worden opgevangen.
+
+
+Stel je de volgende situatie voor. Als in plaats van
+\[f(x) = x^r.m(x) + r_1(x)\] 
+(wat overeenkomt met PZ, dus nullen toevoegen) de ontvanger twee fouten maakt, dan ziet hij
+
+
+\[ f'(x) = f(x) + x^{k_1} + x^{k_2}\]
+in plaats van $(f(x)$. Maar omdat $f(x)$ deelbaar is door $p(x)$ en de extra binominaal niet, zal hij opmerken dat er een fout is opgetreden, omdat $f'(x)$ niet deelbaar is door $p(x)$.
+
+Maar als we NPZ toepassen, zou het volgende slechte kunnen gebeuren. Wat als de ontvanger in plaats van een legaal $m(x), r_2(x)$ paar, opnieuw twee fouten maakt, op een vervelende manier geplaatst zodat hij in plaats van het bovenstaande  het paar ziet
+\[ m(x) + x_j, r_2(x) + x_j, j < r\]
+Dit komt dus overeen met een fout in $m(x)$ en een fout in CRC.
+
+Helaas zullen ze dit soort fouten niet opvangen. Dat komt omdat
+
+\[ m(x) \equiv r_2(x) \mod{p(x)} \]
+
+en dus ook
+
+\[ m(x) + x_j \equiv r_2(x) + x_j \mod{p(x)} \]
+
+en daarom passeert dit foutieve bericht deze controle (de rest zal dezelfde zijn), ook al zijn er slechts twee bitfouten opgetreden. 
+
+
+
+### Referenties
+
+- [1] [https://www.digikey.com/eewiki/display/microcontroller/CRC+Basics]
+- [2] [https://math.stackexchange.com/questions/464829/why-should-we-append-zeros-during-crc-calculation]
+- [3] [https://en.wikipedia.org/wiki/Cyclic_redundancy_check]
+- [4] [https://ww1.microchip.com/downloads/en/AppNotes/00730a.pdf]
